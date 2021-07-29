@@ -13,30 +13,193 @@
 were first introduced by Chaum for untraceable payments  . It extends RSA-PSS encoding specified
 in   to enable blind signature support. 
     " name="description">
-<meta content="xml2rfc 3.8.0" name="generator">
+<meta content="xml2rfc 3.9.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-irtf-cfrg-rsa-blind-signatures-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.8.0
-    Python 3.8.10
+  xml2rfc 3.9.1
+    Python 3.9.5
     appdirs 1.4.4
-    ConfigArgParse 1.2.3
-    google-i18n-address 2.4.0
+    ConfigArgParse 1.3
+    google-i18n-address 2.5.0
     html5lib 1.1
     intervaltree 3.1.0
-    Jinja2 2.11.2
+    Jinja2 2.11.3
     kitchen 1.2.6
     lxml 4.6.3
     pycountry 20.7.3
-    pyflakes 2.2.0
-    PyYAML 5.3.1
+    pyflakes 2.3.0
+    PyYAML 5.4.1
     requests 2.25.1
-    setuptools 51.3.3
+    setuptools 52.0.0
     six 1.15.0
 -->
 <link href="draft-irtf-cfrg-rsa-blind-signatures.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
-<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 html {
   --background-color: #fff;
@@ -847,11 +1010,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RSA Blind Signatures</td>
-<td class="right">June 2021</td>
+<td class="right">July 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Denis, et al.</td>
-<td class="center">Expires 16 December 2021</td>
+<td class="center">Expires 30 January 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -864,12 +1027,12 @@ address div.right {
 <dd class="internet-draft">draft-irtf-cfrg-rsa-blind-signatures-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-06-14" class="published">14 June 2021</time>
+<time datetime="2021-07-29" class="published">29 July 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-12-16">16 December 2021</time></dd>
+<dd class="expires"><time datetime="2022-01-30">30 January 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -921,7 +1084,7 @@ in <span>[<a href="#RFC8017" class="xref">RFC8017</a>]</span> to enable blind si
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 January 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -949,92 +1112,92 @@ in <span>[<a href="#RFC8017" class="xref">RFC8017</a>]</span> to enable blind si
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="compact ulEmpty toc">
-<li class="compact ulEmpty toc" id="section-toc.1-1.1">
+<nav class="toc"><ul class="ulBare toc ulEmpty compact">
+<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.2">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-requirements-notation" class="xref">Requirements Notation</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.3">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="xref">3</a>.  <a href="#name-notation" class="xref">Notation</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.4">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-blind-signature-protocol-ov" class="xref">Blind Signature Protocol Overview</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.5">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-rsabssa-signature-instantia" class="xref">RSABSSA Signature Instantiation</a></p>
-<ul class="compact ulEmpty toc">
-<li class="compact ulEmpty toc" id="section-toc.1-1.5.2.1">
+<ul class="ulBare compact ulEmpty toc">
+<li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-signature-generation" class="xref">Signature Generation</a></p>
-<ul class="compact ulEmpty toc">
-<li class="compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.1">
+<ul class="ulBare compact ulEmpty toc">
+<li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.1">
                     <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="xref">5.1.1</a>.  <a href="#name-blind" class="xref">Blind</a></p>
 </li>
-                  <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.2">
+                  <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.2">
                     <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="xref">5.1.2</a>.  <a href="#name-blindsign" class="xref">BlindSign</a></p>
 </li>
-                  <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.3">
+                  <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5.2.1.2.3">
                     <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="xref">5.1.3</a>.  <a href="#name-finalize" class="xref">Finalize</a></p>
 </li>
                 </ul>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.5.2.2">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-encoding-options" class="xref">Encoding Options</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.6">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-public-key-certification" class="xref">Public Key Certification</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.7">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-api-considerations" class="xref">API Considerations</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.8">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
-<ul class="compact ulEmpty toc">
-<li class="compact ulEmpty toc" id="section-toc.1-1.8.2.1">
+<ul class="ulBare compact ulEmpty toc">
+<li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-timing-side-channels" class="xref">Timing Side Channels</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.2">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-message-robustness" class="xref">Message Robustness</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.3">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.3">
                 <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="xref">8.3</a>.  <a href="#name-randomized-and-deterministi" class="xref">Randomized and Deterministic Signatures</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.4">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.4">
                 <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-key-substitution-attacks" class="xref">Key Substitution Attacks</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.5">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.5">
                 <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-alternative-rsa-encoding-fu" class="xref">Alternative RSA Encoding Functions</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.6">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.6">
                 <p id="section-toc.1-1.8.2.6.1"><a href="#section-8.6" class="xref">8.6</a>.  <a href="#name-alternative-blind-signature" class="xref">Alternative Blind Signature Schemes</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.8.2.7">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8.2.7">
                 <p id="section-toc.1-1.8.2.7.1"><a href="#section-8.7" class="xref">8.7</a>.  <a href="#name-post-quantum-readiness" class="xref">Post-Quantum Readiness</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.9">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.10">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-references" class="xref">References</a></p>
-<ul class="compact ulEmpty toc">
-<li class="compact ulEmpty toc" id="section-toc.1-1.10.2.1">
+<ul class="ulBare compact ulEmpty toc">
+<li class="ulBare compact ulEmpty toc" id="section-toc.1-1.10.2.1">
                 <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
 </li>
-              <li class="compact ulEmpty toc" id="section-toc.1-1.10.2.2">
+              <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.10.2.2">
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-test-vector" class="xref">Test Vector</a></p>
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-test-vectors" class="xref">Test Vectors</a></p>
 </li>
-          <li class="compact ulEmpty toc" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1163,12 +1326,12 @@ rsabssa_blind(pkS, msg)
 Parameters:
 - kLen, the length in octets of the RSA modulus n
 - kBits, the length in bits of the RSA modulus n
+- HF, the hash function used to hash the message
+- MGF, the mask generation function
 
 Inputs:
 - pkS, server public key (n, e)
 - msg, message to be signed, an octet string
-- HF, the hash function used to hash the message
-- MGF, the mask generation function
 
 Outputs:
 - blinded_msg, an octet string of length kLen
@@ -1180,10 +1343,10 @@ Errors:
 - "invalid blind": Raised when the inverse of r cannot be found.
 
 Steps:
-1. encoded_message = EMSA-PSS-ENCODE(msg, kBits - 1)
+1. encoded_msg = EMSA-PSS-ENCODE(msg, kBits - 1)
    with MGF and HF as defined in the parameters
 2. If EMSA-PSS-ENCODE raises an error, raise the error and stop
-3. m = OS2IP(encoded_message)
+3. m = OS2IP(encoded_msg)
 4. r = random_integer_uniform(1, n)
 5. r_inv = inverse_mod(r, n)
 6. If finding the inverse fails, raise an "invalid blind" error
@@ -1195,6 +1358,8 @@ Steps:
 11. output blinded_msg, inv
 </pre><a href="#section-5.1.1-2" class="pilcrow">¶</a>
 </div>
+<p id="section-5.1.1-3">The blinding factor r must be randomly chosen from a uniform distribution.
+This is typically done via rejection sampling.<a href="#section-5.1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="blindsign">
@@ -1213,6 +1378,7 @@ Parameters:
 - kLen, the length in octets of the RSA modulus n
 
 Inputs:
+- skS, server private key
 - blinded_msg, encoded and blinded message to be signed, an
   octet string
 
@@ -1222,14 +1388,17 @@ Outputs:
 Errors:
 - "unexpected input size": Raised when a byte string input doesn't
   have the expected length.
+- "invalid message length": Raised when the message representative
+  to sign is not an integer between 0 and n - 1
 
 Steps:
 1. If len(blinded_msg) != kLen, raise "unexpected input size"
    and stop
 2. m = OS2IP(blinded_msg)
-3. s = RSASP1(skS, m)
-4. blind_sig = I2OSP(s, kLen)
-5. output blind_sig
+3. If m &lt; n, raise "invalid message length" and stop
+4. s = RSASP1(skS, m)
+5. blind_sig = I2OSP(s, kLen)
+6. output blind_sig
 </pre><a href="#section-5.1.2-2" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1251,7 +1420,7 @@ Parameters:
 - kLen, the length in octets of the RSA modulus n
 
 Inputs:
-- pkS, server public key
+- pkS, server public key (n, e)
 - msg, message to be signed, an octet string
 - blind_sig, signed and blinded element, an octet string of
   length kLen
@@ -1330,11 +1499,22 @@ generation. See <a href="#det-sigs" class="xref">Section 8.3</a> for more inform
       <h2 id="name-security-considerations">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-8-1">Bellare et al. <span>[<a href="#BNPS03" class="xref">BNPS03</a>]</span> proved security of Chaum's original
-blind signature scheme based on RSA-FDH based on "one-more-RSA-inversion." Note that the
-design in this document differs only in message encoding, i.e., using PSS instead of FDH.
-Note, importantly, that an empty salt effectively reduces PSS to FDH.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">[[OPEN ISSUE: confirm that results from BNPS03 apply to this construction]]<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-1">Bellare et al. <span>[<a href="#BNPS03" class="xref">BNPS03</a>]</span> proved the following properties of
+Chaum's original blind signature scheme based on RSA-FDH:<a href="#section-8-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8-2.1">One-more-forgery polynomial security. This means the adversary, interacting with the server
+(signer) as a client, cannot output n+1 valid message and signature tuples after only
+interacting with the server n times, for some n which is polynomial in the scheme's security
+parameter.<a href="#section-8-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-8-2.2">Concurrent polynomial security. This means that servers can engage in polynomially many
+invocations of the protocol without compromising security.<a href="#section-8-2.2" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-8-3">Both results rely upon the RSA Known Target Inversion Problem being hard.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-4">The design in this document differs from the analysis in <span>[<a href="#BNPS03" class="xref">BNPS03</a>]</span> only in message encoding,
+i.e., using PSS instead of FDH. Note, importantly, that an empty salt effectively reduces PSS
+to FDH, so the same results apply.<a href="#section-8-4" class="pilcrow">¶</a></p>
 <div id="timing-side-channels">
 <section id="section-8.1">
         <h3 id="name-timing-side-channels">
@@ -1417,38 +1597,49 @@ deterministic, whereas PSS is probabilistic.<a href="#section-8.5-2" class="pilc
         <h3 id="name-alternative-blind-signature">
 <a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-alternative-blind-signature" class="section-name selfRef">Alternative Blind Signature Schemes</a>
         </h3>
-<p id="section-8.6-1">There are a number of blind signature protocols beyond RSA. This section summarizes these
-at a high level, and discusses why an RSA-based variant was chosen for the basis of this
-specification.<a href="#section-8.6-1" class="pilcrow">¶</a></p>
+<p id="section-8.6-1">The protocol in this document is not without shortcomings, including:<a href="#section-8.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.6-2.1">Blind Schnorr <span>[<a href="#Sch01" class="xref">Sch01</a>]</span>: This is a three-message protocol based on the classical Schnorr
+<li class="normal" id="section-8.6-2.1">RSA key and signature sizes are larger than those of alternative blind signature protocols;<a href="#section-8.6-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.6-2.2">No evaluation batching support, which means that the cost of the protocol scales linearly
+with the number of invocations; and<a href="#section-8.6-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.6-2.3">Extensions for features such as threshold signing are more complex to instantiate compared
+to other protocols based on, for example, Schnorr signatures.<a href="#section-8.6-2.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-8.6-3">There are a number of blind signature protocols beyond blind RSA. This section summarizes
+these at a high level, and discusses why an RSA-based variant was chosen for the basis of
+this specification, despite the shortcomings above.<a href="#section-8.6-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.6-4.1">Blind Schnorr <span>[<a href="#Sch01" class="xref">Sch01</a>]</span>: This is a three-message protocol based on the classical Schnorr
 signature scheme over elliptic curve groups. Although simple, the hardness problem upon
 which this is based -- Random inhomogeneities in a Overdetermined Solvable system of linear
 equations, or ROS -- can be broken in polynomial time when a small number of concurrent
 signing sessions are invoked <span>[<a href="#PolytimeROS" class="xref">PolytimeROS</a>]</span>. This can lead to signature forgeries in practice.
 Signers can enforce concurrent sessions, though the limit (approximately 256) for reasonably
 secure elliptic curve groups is small enough to make large-scale signature generation
-prohibitive. In contrast, the variant in this specification has no such concurrency limit.<a href="#section-8.6-2.1" class="pilcrow">¶</a>
+prohibitive. In contrast, the variant in this specification has no such concurrency limit.<a href="#section-8.6-4.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.6-2.2">Clause Blind Schnorr <span>[<a href="#FPS20" class="xref">FPS20</a>]</span>: This is a three-message protocol
+          <li class="normal" id="section-8.6-4.2">Clause Blind Schnorr <span>[<a href="#FPS20" class="xref">FPS20</a>]</span>: This is a three-message protocol
 based on a variant of the blind Schnorr signature scheme. This variant of the protocol is not
 known to be vulnerable to the attack in <span>[<a href="#PolytimeROS" class="xref">PolytimeROS</a>]</span>, though the protocol is still new and
 under consideration. In the future, this may be a candidate for future blind signatures based
 on blind signatures. However, the three-message flow necessarily requires two round trips
 between the client and server, which may be prohibitive for large-scale signature generation.
-Further analysis and experimentation with this scheme is needed.<a href="#section-8.6-2.2" class="pilcrow">¶</a>
+Further analysis and experimentation with this scheme is needed.<a href="#section-8.6-4.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.6-2.3">BSA <span>[<a href="#Abe01" class="xref">Abe01</a>]</span>: This is a three-message protocol based on elliptic
+          <li class="normal" id="section-8.6-4.3">BSA <span>[<a href="#Abe01" class="xref">Abe01</a>]</span>: This is a three-message protocol based on elliptic
 curve groups similar to blind Schnorr. It is also not known to be vulnerable to the ROS attack
 in <span>[<a href="#PolytimeROS" class="xref">PolytimeROS</a>]</span>. Kastner et al. <span>[<a href="#KLRX20" class="xref">KLRX20</a>]</span> proved concurrent security with a polynomial number
 of sessions. For similar reasons to the clause blind Schnorr scheme above, the additional
-number of round trips requires further analysis and experimentation.<a href="#section-8.6-2.3" class="pilcrow">¶</a>
+number of round trips requires further analysis and experimentation.<a href="#section-8.6-4.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.6-2.4">Blind BLS <span>[<a href="#BLS-Proposal" class="xref">BLS-Proposal</a>]</span>: The Boneh-Lynn-Shacham <span>[<a href="#I-D.irtf-cfrg-bls-signature" class="xref">I-D.irtf-cfrg-bls-signature</a>]</span> scheme can
+          <li class="normal" id="section-8.6-4.4">Blind BLS <span>[<a href="#BLS-Proposal" class="xref">BLS-Proposal</a>]</span>: The Boneh-Lynn-Shacham <span>[<a href="#I-D.irtf-cfrg-bls-signature" class="xref">I-D.irtf-cfrg-bls-signature</a>]</span> scheme can
 incorporate message blinding when properly instantiated with Type III pairing group. This is a
 two-message protocol similar to the RSA variant, though it requires pairing support, which is
 not common in widely deployed cryptographic libraries backing protocols such as TLS. In contrast,
-the specification in this document relies upon widely deployed cryptographic primitives.<a href="#section-8.6-2.4" class="pilcrow">¶</a>
+the specification in this document relies upon widely deployed cryptographic primitives.<a href="#section-8.6-4.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1534,15 +1725,15 @@ is based on RSA. (Shor's polynomial-time factorization algorithm readily applies
 <dd class="break"></dd>
 <dt id="I-D.davidson-pp-protocol">[I-D.davidson-pp-protocol]</dt>
         <dd>
-<span class="refAuthor">Davidson, A.</span>, <span class="refTitle">"Privacy Pass: The Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-davidson-pp-protocol-01</span>, <time datetime="2020-07-13" class="refDate">13 July 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-davidson-pp-protocol-01.txt">https://datatracker.ietf.org/doc/html/draft-davidson-pp-protocol-01.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Davidson, A.</span>, <span class="refTitle">"Privacy Pass: The Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-davidson-pp-protocol-01</span>, <time datetime="2020-07-13" class="refDate">13 July 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-davidson-pp-protocol-01">https://datatracker.ietf.org/doc/html/draft-davidson-pp-protocol-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-bls-signature">[I-D.irtf-cfrg-bls-signature]</dt>
         <dd>
-<span class="refAuthor">Boneh, D.</span>, <span class="refAuthor">Gorbunov, S.</span>, <span class="refAuthor">Wahby, R. S.</span>, <span class="refAuthor">Wee, H.</span>, and <span class="refAuthor">Z. Zhang</span>, <span class="refTitle">"BLS Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-bls-signature-04</span>, <time datetime="2020-09-10" class="refDate">10 September 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature-04.txt">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature-04.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Boneh, D.</span>, <span class="refAuthor">Gorbunov, S.</span>, <span class="refAuthor">Wahby, R. S.</span>, <span class="refAuthor">Wee, H.</span>, and <span class="refAuthor">Z. Zhang</span>, <span class="refTitle">"BLS Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-bls-signature-04</span>, <time datetime="2020-09-10" class="refDate">10 September 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature-04">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-voprf">[I-D.irtf-cfrg-voprf]</dt>
         <dd>
-<span class="refAuthor">Davidson, A.</span>, <span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Sullivan, N.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Oblivious Pseudorandom Functions (OPRFs) using Prime-Order Groups"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-voprf-06</span>, <time datetime="2021-02-21" class="refDate">21 February 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-06.txt">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-06.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Davidson, A.</span>, <span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Sullivan, N.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Oblivious Pseudorandom Functions (OPRFs) using Prime-Order Groups"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-voprf-07</span>, <time datetime="2021-07-06" class="refDate">6 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-07">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-voprf-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="JKK14">[JKK14]</dt>
         <dd>
@@ -1595,30 +1786,32 @@ is based on RSA. (Shor's polynomial-time factorization algorithm readily applies
 </dl>
 </section>
 </section>
-<div id="test-vector">
-<section id="section-appendix.a">
-      <h2 id="name-test-vector">
-<a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-test-vector" class="section-name selfRef">Test Vector</a>
+<div id="test-vectors">
+<section id="appendix-A">
+      <h2 id="name-test-vectors">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
       </h2>
-<p id="section-appendix.a-1">This section includes a test vector for the blind signature scheme defined in this document.
-The following parameters are specified:<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">This section includes test vectors for the blind signature scheme defined in this document.
+The following parameters are specified:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-appendix.a-2.1">p, q, n, e, d: RSA private and public key parameters, each encoded as a hexadecimal string.<a href="#section-appendix.a-2.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A-2.1">p, q, n, e, d: RSA private and public key parameters, each encoded as a hexadecimal string.<a href="#appendix-A-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.2">msg: Messsage being signed, encoded as a hexadecimal string. Its hash is computed using the
-hash function identified by the 'hash' test vector parameter.<a href="#section-appendix.a-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-2.2">msg: Messsage being signed, encoded as a hexadecimal string. The hash is computed using SHA-384.<a href="#appendix-A-2.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.3">salt: Randomly-generated salt used when computing the signature.<a href="#section-appendix.a-2.3" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-2.3">salt: Randomly-generated salt used when computing the signature. The length (sLen) is either 48 or 0 bytes.<a href="#appendix-A-2.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.4">inv: The message blinding inverse, encoded as a hexadecimal string.<a href="#section-appendix.a-2.4" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-2.4">inv: The message blinding inverse, encoded as a hexadecimal string.<a href="#appendix-A-2.4" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.5">blinded_message, blind_sig: The protocol values exchanged during the computation,
-encoded as hexadecimal strings.<a href="#section-appendix.a-2.5" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-2.5">encoded_msg: EMSA-PSS encoded message. The mask generation function is MGF1 with SHA-384.<a href="#appendix-A-2.5" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.6">sig: The message signature.<a href="#section-appendix.a-2.6" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-2.6">blinded_msg, blind_sig: The protocol values exchanged during the computation,
+encoded as hexadecimal strings.<a href="#appendix-A-2.6" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-A-2.7">sig: The output message signature.<a href="#appendix-A-2.7" class="pilcrow">¶</a>
 </li>
       </ul>
-<div class="artwork art-text alignLeft" id="section-appendix.a-3">
+<p id="appendix-A-3">Test vector for probabilistic signatures (sLen=48):<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="appendix-A-4">
 <pre>
 p = e1f4d7a34802e27c7392a3cea32a262a34dc3691bd87f3f310dc756734889305
 59c120fd0410194fb8a0da55bd0b81227e843fdca6692ae80e5a5d414116d4803fca
@@ -1689,7 +1882,7 @@ f13ff13e4a28b594d59e3eadbadf6136eee7a59d6a444c9eb4e2198e8a974f27a39e
 b63af2c9af3870488b8adaad444674f512133ad80b9220e09158521614f1faadfe85
 05ef57b7df6813048603f0dd04f4280177a11380fbfc861dbcbd7418d62155248dad
 5fdec0991f
-encoded_message = 6e0c464d9c2f9fbc147b43570fc4f238e0d0b38870b3addcf7
+encoded_msg = 6e0c464d9c2f9fbc147b43570fc4f238e0d0b38870b3addcf7
 a4217df912ccef17a7f629aa850f63a063925f312d61d6437be954b45025e8282f9c
 0b1131bc8ff19a8a928d859b37113db1064f92a27f64761c181c1e1f9b251ae5a2f8
 a4047573b67a270584e089beadcb13e7c82337797119712e9b849ff56e04385d144d
@@ -1753,12 +1946,84 @@ f29306f25623ad1e8aa08ef71b54b8ee447b5f64e73d09bdd6c3b7ca224058d7c67c
 c7551e9241688ada12d859cb7646fbd3ed8b34312f3b49d69802f0eaa11bc4211c2f
 7a29cd5c01ed01a39001c5856fab36228f5ee2f2e1110811872fe7c865c42ed59029
 c706195d52
-</pre><a href="#section-appendix.a-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-A-4" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A-5">Test vector for deterministic signatures (sLen=0):<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="appendix-A-6">
+<pre>
+p = ca9d82e9059fa3b145da850e0c451ff31093d819644ba29a3409393de2adfa1b
+cd65e8669a5c5140142c1404204edbc380d4e7a5c866c06bb2427c76b9e3d16bbfc1
+b1668dec219b8c59fee90b7baf557fc2feb13f2f4b30d8606d20b9928f4f588a3b34
+baa659b3bd1dd590c83e90e6251b5239fbbb73b12e90534a375e3f71
+q = c075694f69db6a07456e19eeace01b430f2d6cc6cd5495d569e242b6f5e8ded7
+df27e6aeea4db4e307554fb519b68279a58d9e2d25cee4b37668554eec2f2feb7924
+6955a07bd526f02a6afedc7a3aff2b8953287fef2c4a02207ccb9f14e4612e9af344
+7dd3401728a8957871b759b6bbf22aa0e8271b82f32dd5a2d2550197
+n = 98530f850dcc894d84ecfce9dec3a475bf30ec3ce4606f677ac4a6ef63f763ff
+64a162ef1c991d8094b5652d0d78c126b3e97d1d77eba2f833b5be9a124e003065ec
+2a3ea4fbc31bc283de1c7cd8a971eb57aa7284b082562ccde572b73702068a6143e6
+dabf886538ff419874c300a85f3d9d50f0731fc6b9c92a121fefb7911f5ea92d25b1
+7a4f3b2883eff34a221b5c28c488e35067a8460d8fab1c405704ebfa1ca165d69cd4
+e425995a03a447f6cbba5d20d459707ab4a2c537a5dbd02801d7b19a03aaa9aec21d
+1c363996c6b9fee2cab370d501c9b67e7dc4a20eb0cdc3b24be242093b5a66119b96
+da0fb0ec0b1b0da0bd0b92236ece47d5c95bdca7
+e = 010001
+d = 6b15d18e4f8220709fe75f7226ca517ef9b7320d28dc66d54fa89a5727670f24
+c7a0f1857a0c6682338946a4a298e6e90788390e137553afbbe2a4297a7edd8128d6
+1b68c8e1b96b7596f0fa0406e9308e2ba64735e344edc237c97b993411b7796721ae
+54d05bda1574d5af913e59e30479b373e86676cb6566f7ada0480d3ae21d50ac94c0
+b41c476e566d6bcdef88eeab3042ef1016527558e794b6029cff1120596fe2104fac
+928a66ad2fb1094d1ae1231abf95206cae7cd4e7aad388199d7ac1fe17e3f9174362
+32cffe70e12056e02cfb9604e73cc34984bb83f7112ed197bf3a4d9f6d0c0e3c4dd8
+f2d9cbe17185f1e63561b08f7d14bd36112f3ea1
+msg = 5465737420766563746f7220776974682064657465726d696e697374696320
+70616464696e67
+encoded_msg = 4021ac68705782fb7587bf24ac0528853025aa4a998db7b1a503af
+b5b266cbd1876710a2b0aa6e37b70fca538d42285beddd61d965c02b2162c8644587
+3bdaf687a29bf6b2ab10fa22013cae53ff1c78969ef6c3eb069bfef339a5df788044
+d159678e571e50fc3fa40a30fe183348453542f258c663dc9c4b372895120ad12ff8
+b8ec1d37d766b2604fbf50bf9d84432a59593d21d7f379d6bf9198ea2fa90ee5abad
+b27eada5d6f40a2ec45aa4bb8710042beab5c6afb4381fc57012e61b3a815800e53e
+69fe2fdccb3b4ee51968c1ef6281d7e8fe08c4337bad73d99e947df834e5402378a6
+6142bf032dfade7e6e2d43ae90b145055861e06eff189b63bc
+inv = 6e69972553327ee6240ce0de7146aea2243927cf9f7f52c0103367df79e3ba
+febfa61c2ffdc41ea397a38523654a1a806f4eebcd5fe9a2592a463f1faa26c3601f
+83f29141eda488f14f7c0aa82faa025e37adbe77e02e575f72f7b9d095882923476f
+2328dfaeb23b607d2f706c6c8ef6c2aee50ddb14e6d27e043e7dec8e5dede6844aa8
+0b2206b6019350d37925bb8819653aa7a13bfb9cc3c95b53378f278903b5c06a10c0
+b3ce0aa028e9600f7b2733f0278565f9b88e9d92e039db78300170d7bbd32ce2b89a
+d8944167839880e3a2aeba05bf00edc8032a63e6279bf42a131ccc9bb95b8693764b
+27665274fb673bdfb7d69b7957ee8b64a99efbeed9
+blinded_msg = 5a631b41e7759a634cef04359436e358143ee2892fbebd072d1e5c
+c45475ff55b6b492e13c59979f4b968994ddca3cc068084d3b176a6132039c584707
+acbb9862c009fa5b63cfb7b6f6d577825c1e81ad11059cb87a524083230f906ea0a4
+d9db3434d49cf9f0ea52b2425db4d319f51540e5de6cfb30b86d5e5d810a284f3478
+f6259f054407c854303ec23c2e0989dd57aa002e56ab6287594c25154a1646060cb4
+f6479b07f627991f7089ac0491d5841d6461166b324b3d448b2a8071de68505503fe
+adf7d8182d18d8b0d3b91d77b627a5ffae68f913efbbb2fc082437f845880f94f07d
+873bc0c0688f60033235bcc1701dcba83dca944b05227884e3
+blind_sig = 817596a0b568088b60c29482c0178d34e0d54dc34a9375152701e4e6
+d5ef76c92f4281a377d8b2f438f6af4ef9c26dd38ad2cc932f90fe45d4c0a1ba10e6
+95a1c8e797aa5023f84385904e5f378df5677b8eb7312f835f9e3a097b1b7e55fece
+0d00ec3f52ba26b39c91322b6404eef4e567d909195bfc0f72690805ea3f71736d7e
+b51e84556c5241786f5f37bf9d2a0305bf36454d9ab8b5a9f6fe03fd4ab472b5379d
+7e8ab92e803c7c15bf3d0234653e1f6d80d23c7f127bed7fba3d297b62fee51b8e71
+b04d402cf291ac87460011fd222cfd27b5669d79d1e0dcc8d911c2dc6d0edcd205a9
+1278cc97019cfc709ce8a50297409e66f27b1299e386a6cd
+sig = 848fc8a032ea073280a7d9146ae55bb0199cd1941c10a03cce1dc38579c4e7
+7e87f259e250b16a9912ce2c085cb9489846f803fd6ed09bf8605c4aa8b0ebf2c938
+093e53ad025a48b97f7975255805118c33fa0f73ec204b9723acefacd8031ab3d9f7
+ebeaf996eee3678c788cea96932dd723b236355c0e6864fad2fc87b00e4eda476e90
+f000936b0d9fa65bf1112fc296e8aa5bb05ca7cb32dec01407e3d3ed94c1ebb0dc43
+0ea59588ccc0995a6e2f1423dbe06c6f27650b23b12eb343b9e461ba532825e5e265
+72fbe723b69753c178361e7a834a566ce950df55ff97d314b384b3fa8c0098d560d4
+c6ba519a9b6040f908adf34f6b2d5d30c265cd0fb1
+</pre><a href="#appendix-A-6" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="section-appendix.b">
+<section id="appendix-B">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
