@@ -5,10 +5,10 @@
 Network Working Group                                           F. Denis
 Internet-Draft                                               Fastly Inc.
 Intended status: Informational                                 F. Jacobs
-Expires: 31 January 2022                                      Apple Inc.
+Expires: 3 February 2022                                      Apple Inc.
                                                                C.A. Wood
                                                               Cloudflare
-                                                            30 July 2021
+                                                           2 August 2021
 
 
                           RSA Blind Signatures
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 January 2022.
+   This Internet-Draft will expire on 3 February 2022.
 
 Copyright Notice
 
@@ -464,11 +464,11 @@ Table of Contents
       linear equations, or ROS -- can be broken in polynomial time when
       a small number of concurrent signing sessions are invoked
       [PolytimeROS].  This can lead to signature forgeries in practice.
-      Signers can enforce concurrent sessions, though the limit
-      (approximately 256) for reasonably secure elliptic curve groups is
-      small enough to make large-scale signature generation prohibitive.
-      In contrast, the variant in this specification has no such
-      concurrency limit.
+      Signers can enforce a limit on concurrent sessions, though the
+      limit (approximately 256) for reasonably secure elliptic curve
+      groups is small enough to make large-scale signature generation
+      prohibitive.  In contrast, the variant in this specification has
+      no such concurrency limit.
 
    *  Clause Blind Schnorr [FPS20]: This is a three-message protocol
       based on a variant of the blind Schnorr signature scheme.  This
