@@ -5,10 +5,10 @@
 Network Working Group                                           F. Denis
 Internet-Draft                                               Fastly Inc.
 Intended status: Informational                                 F. Jacobs
-Expires: 8 January 2022                                       Apple Inc.
+Expires: 11 February 2022                                     Apple Inc.
                                                                C.A. Wood
                                                               Cloudflare
-                                                             7 July 2021
+                                                          10 August 2021
 
 
                           RSA Blind Signatures
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2022.
+   This Internet-Draft will expire on 11 February 2022.
 
 Copyright Notice
 
@@ -131,9 +131,11 @@ Table of Contents
    The following terms are used throughout this document to describe the
    protocol operations in this document:
 
-   *  I2OSP and OS2IP: Convert a byte string to and from a non-negative
-      integer as described in [RFC8017].  Note that these functions
-      operate on byte strings in big-endian byte order.
+   *  bytes_to_int and int_to_bytes: Convert a byte string to and from a
+      non-negative integer. bytes_to_int and int_to_bytes are
+      implemented as OS2IP and I2OSP as described in [RFC8017],
+      respectively.  Note that these functions operate on byte strings
+      in big-endian byte order.
 
    *  random_integer_uniform(M, N): Generate a random, uniformly
       distributed integer R such that M <= R < N.
@@ -198,12 +200,12 @@ Table of Contents
    Parameters:
    - kLen, the length in octets of the RSA modulus n
    - kBits, the length in bits of the RSA modulus n
+   - HF, the hash function used to hash the message
+   - MGF, the mask generation function
 
    Inputs:
    - pkS, server public key (n, e)
    - msg, message to be signed, an octet string
-   - HF, the hash function used to hash the message
-   - MGF, the mask generation function
 
    Outputs:
    - blinded_msg, an octet string of length kLen
@@ -218,16 +220,19 @@ Table of Contents
    1. encoded_msg = EMSA-PSS-ENCODE(msg, kBits - 1)
       with MGF and HF as defined in the parameters
    2. If EMSA-PSS-ENCODE raises an error, raise the error and stop
-   3. m = OS2IP(encoded_msg)
+   3. m = bytes_to_int(encoded_msg)
    4. r = random_integer_uniform(1, n)
    5. r_inv = inverse_mod(r, n)
    6. If finding the inverse fails, raise an "invalid blind" error
       and stop
    7. x = RSAVP1(pkS, r)
    8. z = m * x mod n
-   9. blinded_msg = I2OSP(z, kLen)
-   10. inv = I2OSP(r_inv, kLen)
+   9. blinded_msg = int_to_bytes(z, kLen)
+   10. inv = int_to_bytes(r_inv, kLen)
    11. output blinded_msg, inv
+
+   The blinding factor r must be randomly chosen from a uniform
+   distribution.  This is typically done via rejection sampling.
 
 5.1.2.  BlindSign
 
@@ -241,6 +246,7 @@ Table of Contents
    - kLen, the length in octets of the RSA modulus n
 
    Inputs:
+   - skS, server private key
    - blinded_msg, encoded and blinded message to be signed, an
      octet string
 
@@ -250,14 +256,17 @@ Table of Contents
    Errors:
    - "unexpected input size": Raised when a byte string input doesn't
      have the expected length.
+   - "invalid message length": Raised when the message representative
+     to sign is not an integer between 0 and n - 1.
 
    Steps:
    1. If len(blinded_msg) != kLen, raise "unexpected input size"
       and stop
-   2. m = OS2IP(blinded_msg)
-   3. s = RSASP1(skS, m)
-   4. blind_sig = I2OSP(s, kLen)
-   5. output blind_sig
+   2. m = bytes_to_int(blinded_msg)
+   3. If m >= n, raise "invalid message length" and stop
+   4. s = RSASP1(skS, m)
+   5. blind_sig = int_to_bytes(s, kLen)
+   6. output blind_sig
 
 5.1.3.  Finalize
 
@@ -272,7 +281,7 @@ Table of Contents
    - kLen, the length in octets of the RSA modulus n
 
    Inputs:
-   - pkS, server public key
+   - pkS, server public key (n, e)
    - msg, message to be signed, an octet string
    - blind_sig, signed and blinded element, an octet string of
      length kLen
@@ -289,10 +298,10 @@ Table of Contents
    Steps:
    1. If len(blind_sig) != kLen, raise "unexpected input size" and stop
    2. If len(inv) != kLen, raise "unexpected input size" and stop
-   3. z = OS2IP(blind_sig)
-   4. r_inv = OS2IP(inv)
+   3. z = bytes_to_int(blind_sig)
+   4. r_inv = bytes_to_int(inv)
    5. s = z * r_inv mod n
-   6. sig = I2OSP(s, kLen)
+   6. sig = int_to_bytes(s, kLen)
    7. result = RSASSA-PSS-VERIFY(pkS, msg, sig)
    8. If result = "valid signature", output sig, else
       raise "invalid signature" and stop
@@ -433,9 +442,22 @@ Table of Contents
 
 8.6.  Alternative Blind Signature Schemes
 
-   There are a number of blind signature protocols beyond RSA.  This
-   section summarizes these at a high level, and discusses why an RSA-
-   based variant was chosen for the basis of this specification.
+   The protocol in this document is not without shortcomings, including:
+
+   *  RSA key and signature sizes are larger than those of alternative
+      blind signature protocols;
+
+   *  No evaluation batching support, which means that the cost of the
+      protocol scales linearly with the number of invocations; and
+
+   *  Extensions for features such as threshold signing are more complex
+      to instantiate compared to other protocols based on, for example,
+      Schnorr signatures.
+
+   There are a number of blind signature protocols beyond blind RSA.
+   This section summarizes these at a high level, and discusses why an
+   RSA-based variant was chosen for the basis of this specification,
+   despite the shortcomings above.
 
    *  Blind Schnorr [Sch01]: This is a three-message protocol based on
       the classical Schnorr signature scheme over elliptic curve groups.
@@ -444,11 +466,11 @@ Table of Contents
       linear equations, or ROS -- can be broken in polynomial time when
       a small number of concurrent signing sessions are invoked
       [PolytimeROS].  This can lead to signature forgeries in practice.
-      Signers can enforce concurrent sessions, though the limit
-      (approximately 256) for reasonably secure elliptic curve groups is
-      small enough to make large-scale signature generation prohibitive.
-      In contrast, the variant in this specification has no such
-      concurrency limit.
+      Signers can enforce a limit on concurrent sessions, though the
+      limit (approximately 256) for reasonably secure elliptic curve
+      groups is small enough to make large-scale signature generation
+      prohibitive.  In contrast, the variant in this specification has
+      no such concurrency limit.
 
    *  Clause Blind Schnorr [FPS20]: This is a three-message protocol
       based on a variant of the blind Schnorr signature scheme.  This
